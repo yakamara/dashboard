@@ -1,0 +1,24 @@
+package: dashboard
+version: '0.1.0alpha'
+author: 'Robert Rupf'
+supportpage: https://github.com/yakamara/dashboard
+
+page:
+    title: 'translate:title'
+    perm: dashboard[]
+    block: system
+    prio: 10
+    pjax: true
+    icon: rex-icon fas fa-th
+#    subpages:
+#        cronjobs: { title: 'translate:title' }
+#        log: { title: 'translate:log' }
+
+#pages:
+#    system/log/cronjob:
+#        title: Cronjob
+#        perm: admin[]
+
+requires:
+    php: '>=7.4'
+    redaxo: ^5.11.0

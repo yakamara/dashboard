@@ -10,6 +10,8 @@ if (rex::isBackend()) {
         }
     );
 
+    rex_perm::register('dashboard[move-items]', null, rex_perm::EXTRAS);
+
     rex_view::addCssFile($addon->getAssetsUrl('css/style.css'));
     rex_view::addJsFile($addon->getAssetsUrl('js/script.js'));
 }

@@ -23,87 +23,64 @@ if (rex::isBackend()) {
     }
 
     rex_dashboard::addItem(
-        rex_dashboard_item_charts::factory('dashboard-demo-chart-1', 'Chartdemo 1')
-            ->setChartType('bar')
-            ->setChartData(<<<'CHARTDATA'
-{
-    labels: ['Rot', 'Blau', 'Gelb', 'Grün', 'Lila', 'Orange'],
-    datasets: [{
-        label: 'Chartdemo 1',
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: [
-            'rgba(255, 99, 132, 0.6)',
-            'rgba(54, 162, 235, 0.6)',
-            'rgba(255, 206, 86, 0.6)',
-            'rgba(75, 192, 192, 0.6)',
-            'rgba(153, 102, 255, 0.6)',
-            'rgba(255, 159, 64, 0.6)'
-        ],
-        borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-        ],
-        borderWidth: 1
-    }]
-}
-CHARTDATA
-            )
+        rex_dashboard_item_chart_bar::factory('dashboard-demo-chart-bar-horizontal', 'Chartdemo Balken horizontal')
+            ->setHorizontal()
+            ->setChartData([
+                'Rot' => 12,
+                'Blau' => 19,
+                'Gelb' => 3,
+                'Grün' => 5,
+                'Lila' => 2,
+                'Orange' => 3,
+            ])
     );
 
     rex_dashboard::addItem(
-        rex_dashboard_item_charts::factory('dashboard-demo-chart-2', 'Chartdemo 3')
-            ->setChartType('polarArea')
-            ->setChartData(<<<'CHARTDATA'
-{
-  labels: [
-    'Rot',
-    'Grün',
-    'Gelb',
-    'Grau',
-    'Blau'
-  ],
-  datasets: [{
-    label: 'My First Dataset',
-    data: [11, 16, 7, 3, 14],
-    backgroundColor: [
-      'rgb(255, 99, 132)',
-      'rgb(75, 192, 192)',
-      'rgb(255, 205, 86)',
-      'rgb(201, 203, 207)',
-      'rgb(54, 162, 235)'
-    ]
-  }]
-}
-CHARTDATA
-            )
+        rex_dashboard_item_chart_bar::factory('dashboard-demo-chart-bar-vertical', 'Chartdemo Balken vertikal')
+            ->setChartData([
+                'Rot' => 12,
+                'Blau' => 19,
+                'Gelb' => 3,
+                'Grün' => 5,
+                'Lila' => 2,
+                'Orange' => 3,
+            ])
     );
 
     rex_dashboard::addItem(
-        rex_dashboard_item_charts::factory('dashboard-demo-chart-3', 'Chartdemo 3')
-            ->setChartType('pie')
-            ->setChartData(<<<'CHARTDATA'
-{
-  labels: [
-    'Red',
-    'Blue',
-    'Yellow'
-  ],
-  datasets: [{
-    label: 'My First Dataset',
-    data: [300, 50, 100],
-    backgroundColor: [
-      'rgb(255, 99, 132)',
-      'rgb(54, 162, 235)',
-      'rgb(255, 205, 86)'
-    ],
-    hoverOffset: 4
-  }]
-}
-CHARTDATA
-            )
+        rex_dashboard_item_chart_pie::factory('dashboard-demo-chart-pie', 'Chartdemo Kreisdiagramm')
+            ->setChartData([
+                'Rot' => 12,
+                'Blau' => 19,
+                'Gelb' => 3,
+                'Grün' => 5,
+                'Lila' => 2,
+                'Orange' => 3,
+            ])
+    );
+
+    rex_dashboard::addItem(
+        rex_dashboard_item_chart_pie::factory('dashboard-demo-chart-donut', 'Chartdemo Donutdiagramm')
+            ->setDonut()
+            ->setChartData([
+                'Rot' => 12,
+                'Blau' => 19,
+                'Gelb' => 3,
+                'Grün' => 5,
+                'Lila' => 2,
+                'Orange' => 3,
+            ])
+    );
+
+    rex_dashboard::addItem(
+        rex_dashboard_item_chart_pie::factory('dashboard-demo-chart-sql', 'Artikelanzahl pro Nutzer')
+            ->setChartDataSql('
+                SELECT u.name label, COUNT(*) value
+                FROM rex_user u
+                INNER JOIN rex_article a
+                    ON a.createuser = u.login
+                GROUP BY u.id
+                ORDER BY COUNT(*) DESC
+            ')
     );
 }

@@ -31,51 +31,9 @@
                 'data': data,
                 'rex-api-call': 'dashboard_store',
             });
-        }
-    };
-
-    $(document).on('rex:ready', function ()
-    {
-        let options = {
-            column: 3,
-            cellHeight: 50,
-            minRow: 1, // don't collapse when empty
-            float: true,
-            handle: '.grid-stack-item-handle',
-            styleInHead: true,
-        };
-
-        grid = GridStack.init(options);
-        items = grid.getGridItems();
-
-        for (let i in items) {
-            $items[i] = $(items[i]);
-        }
-
-        grid.on('change', function (event, items)
+        },
+        resize: function()
         {
-            for (let i in items) {
-                setTimeout(function() {
-                    $(items[i].el).removeClass('resizing');
-                }, 500);
-            }
-
-            if (storeTimeoutHandler) {
-                clearTimeout(storeTimeoutHandler);
-            }
-
-            storeTimeoutHandler = setTimeout(dashboard.store, 500);
-        });
-
-        $('#rex-dashboard-compact').on('click', function(e) {
-            e.preventDefault();
-            grid.compact();
-        });
-
-        $('#rex-dashboard-autosize').on('click', function(e)
-        {
-            e.preventDefault();
-
             for (let i in items) {
                 let cellHeight = Math.ceil(($items[i].find('.panel-body').prop('scrollHeight')
                     + $items[i].find('.panel-heading').outerHeight(true)
@@ -88,11 +46,65 @@
                 }
 
                 $items[i].addClass('resizing');
+                setTimeout(function() {
+                    $(items[i].el).removeClass('resizing');
+                }, 500);
 
                 grid.update(items[i], {
                     h: cellHeight
                 });
             }
+        },
+        compact: function()
+        {
+            grid.compact();
+        }
+    };
+
+    $(document).on('rex:ready', function ()
+    {
+        let options = {
+            column: 3,
+            cellHeight: 50,
+            minRow: 1, // don't collapse when empty
+            float: true,
+            handle: '.grid-stack-item-handle',
+            styleInHead: true,
+            // resizable: false,
+        };
+
+        grid = GridStack.init(options);
+        items = grid.getGridItems();
+
+        for (let i in items) {
+            $items[i] = $(items[i]);
+        }
+
+        grid.on('change', function (event, items)
+        {
+            if (storeTimeoutHandler) {
+                clearTimeout(storeTimeoutHandler);
+            }
+
+            storeTimeoutHandler = setTimeout(dashboard.store, 500);
+        });
+
+        $('#rex-dashboard-compact').on('click', function(e) {
+            e.preventDefault();
+            dashboard.compact();
+        });
+
+        $('#rex-dashboard-autosize').on('click', function(e)
+        {
+            e.preventDefault();
+
+            dashboard.resize();
+        });
+
+        $(window).on('resize', function()
+        {
+            setTimeout(dashboard.resize, 100);
+            setTimeout(dashboard.compact, 150);
         });
     });
 }(jQuery));

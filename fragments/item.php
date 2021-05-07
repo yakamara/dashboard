@@ -10,7 +10,9 @@ $item = $this->getVar('item');
             <?php if ($item->getOption('show-header')): ?>
                 <header class="panel-heading">
                     <div class="panel-title"><?= htmlspecialchars($item->getName()) ?></div>
-                    <div class="grid-stack-item-handle"><i class="glyphicon glyphicon-move"></i></div>
+                    <?php if (rex::getUser()->hasPerm('dashboard[move-items]')): ?>
+                        <div class="grid-stack-item-handle"><i class="glyphicon glyphicon-move"></i></div>
+                    <?php endif; ?>
                 </header>
             <?php endif; ?>
             <div class="panel-body"><?=$item->getContent() ?></div>

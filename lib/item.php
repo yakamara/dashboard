@@ -19,15 +19,16 @@ abstract class rex_dashboard_item
     private static $jsFiles = [];
     private static $cssFiles = [];
 
-    private $name = null;
-    private $id = null;
-    private $content = '';
-    private $options = [
+    protected $name = null;
+    protected $id = null;
+    protected $content = '';
+    protected $options = [
         'show-header' => true,
     ];
-    private $attributes = [
+    protected $attributes = [
         'gs-w' => 1,
         'gs-h' => 3,
+        'gs-no-resize' => 1,
     ];
 
     protected function __construct($id, $name)

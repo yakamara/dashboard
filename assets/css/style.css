@@ -45,3 +45,7 @@
 #rex-dashboard .rex-page-header .actions ul li#rex-dashboard-compact i {
     transform: rotate(180deg)
 }
+
+#rex-dashboard .grid-stack .grid-stack-item-handle {
+    cursor: move;
+}

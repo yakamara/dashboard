@@ -1,7 +1,9 @@
 dashboard_title = Dashboard
 dashboard_action_compact = Automatisch anordnen
 dashboard_action_autosize = Größe anpassen
+dashboard_selet_widget_title = Widgets auswählen
 
 dashboard_api_store_failed_backend = Das Speichern des Dashboards ist nur im Backend möglich.
 dashboard_api_store_failed_user = Zum Speichern des Dashboards muss man angemeldet sein.
 dashboard_api_store_success = Speichern des Dashboards erfolgreich.
+

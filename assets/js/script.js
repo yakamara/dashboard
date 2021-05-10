@@ -9,21 +9,33 @@
 
 (function($) {
     let grid
-        , items = {}
-        , $items = {}
+        , items = []
+        , $items = []
         , storeTimeoutHandler = null
+        , widgetSelectTimeoutHandler = null
         , dashboard = {
         store: function()
         {
             let data = {};
             for (let i in items) {
-                data[$items[i].data('id')] = {
-                    'gs-w': items[i].gridstackNode.w,
-                    'gs-h': items[i].gridstackNode.h,
-                    'gs-x': items[i].gridstackNode.x,
-                    'gs-y': items[i].gridstackNode.y,
-                };
-
+                if (!items[i].gridstackNode) {
+                    data[$items[i].data('id')] = {
+                        'gs-w': 0,
+                        'gs-h': 0,
+                        'gs-x': 0,
+                        'gs-y': 0,
+                        'data-active': 0,
+                    };
+                }
+                else {
+                    data[$items[i].data('id')] = {
+                        'gs-w': items[i].gridstackNode.w,
+                        'gs-h': items[i].gridstackNode.h,
+                        'gs-x': items[i].gridstackNode.x,
+                        'gs-y': items[i].gridstackNode.y,
+                        'data-active': 1,
+                    };
+                }
             }
 
             $.post('index.php', {
@@ -35,6 +47,10 @@
         resize: function()
         {
             for (let i in items) {
+                if (!items[i].gridstackNode || !$items[i].is(':visible')) {
+                    continue;
+                }
+
                 let cellHeight = Math.ceil(($items[i].find('.panel-body').prop('scrollHeight')
                     + $items[i].find('.panel-heading').outerHeight(true)
                     + grid.opts.marginTop
@@ -76,6 +92,11 @@
         grid = GridStack.init(options);
         items = grid.getGridItems();
 
+        $('.grid-stack-inactive>div').each(function()
+        {
+            items.push($(this)[0]);
+        });
+
         for (let i in items) {
             $items[i] = $(items[i]);
         }
@@ -105,6 +126,41 @@
         {
             setTimeout(dashboard.resize, 100);
             setTimeout(dashboard.compact, 150);
+        });
+
+        $('#widget-select').on('change', function()
+        {
+            let selectItems = $(this).val();
+
+            grid.batchUpdate();
+            for (let i in $items) {
+                if (selectItems.indexOf($items[i].data('id')) >= 0) {
+                    if (!$items[i].data('active')) {
+                        grid.addWidget(items[i]);
+                        $items[i].data('active', '1');
+                        $items[i].appendTo($('.grid-stack'));
+                    }
+                }
+                else {
+                    if ($items[i].data('active')) {
+                        grid.removeWidget(items[i], false);
+                        $items[i].data('active', '0');
+                        $items[i].appendTo($('.grid-stack-inactive'));
+                    }
+                }
+            }
+
+            if (widgetSelectTimeoutHandler) {
+                clearTimeout(widgetSelectTimeoutHandler);
+            }
+
+            widgetSelectTimeoutHandler = setTimeout(function()
+            {
+                grid.commit();
+                dashboard.resize();
+                dashboard.compact();
+                dashboard.store();
+            }, 500);
         });
     });
 }(jQuery));

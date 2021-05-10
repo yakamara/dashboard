@@ -32,12 +32,20 @@ class rex_dashboard
 
     public static function get()
     {
-        $output = '';
+        $outputActive = $outputInactive = '';
         foreach (static::$items as $item) {
-            $output .= (new rex_fragment(['item' => $item]))->parse('item.php');
+            if ($item->isActive()) {
+                $outputActive .= (new rex_fragment(['item' => $item]))->parse('item.php');
+            }
+            else {
+                $outputInactive .= (new rex_fragment(['item' => $item]))->parse('item.php');
+            }
         }
 
-        return (new rex_fragment(['output' => $output]))->parse('dashboard.php');
+        return (new rex_fragment([
+            'outputActive' => $outputActive,
+            'outputInactive' => $outputInactive,
+        ]))->parse('dashboard.php');
     }
 
     public static function addItem(rex_dashboard_item $item)
@@ -47,7 +55,27 @@ class rex_dashboard
 
     public static function getHeader()
     {
-        return (new rex_fragment())->parse('header.php');
+        $select = new rex_select();
+        $select->setSize(1);
+        $select->setName('widgets[]');
+        $select->setId('widget-select');
+        $select->setMultiple();
+        $select->setAttribute('class', 'form-control selectpicker');
+        $select->setAttribute('data-selected-text-format', 'static');
+        $select->setAttribute('data-title', rex_i18n::msg('dashboard_selet_widget_title'));
+        $select->setAttribute('data-dropdown-align-right', 'auto');
+
+        foreach (static::$items as $item) {
+            $select->addOption($item->getName(), $item->getId());
+
+            if ($item->isActive()) {
+                $select->setSelected($item->getId());
+            }
+        }
+
+        return (new rex_fragment([
+            'widgetSelect' => $select->get(),
+        ]))->parse('header.php');
     }
 
     public static function itemExists($id)

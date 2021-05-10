@@ -12,6 +12,7 @@ abstract class rex_dashboard_item
         'height' => 'gs-h',
         'x' => 'gs-x',
         'y' => 'gs-y',
+        'active' => 'data-active',
     ];
 
     private static $ids = [];
@@ -127,6 +128,27 @@ abstract class rex_dashboard_item
         }
 
         return $this;
+    }
+
+    public function isActive($userId = null)
+    {
+        if (is_null($userId)) {
+            if ($user = rex::getUser()) {
+                $userId = $user->getId();
+            }
+        }
+        else if ($userId instanceof rex_user) {
+            $userId = $userId->getId();
+        }
+        else {
+            $userId = intval($userId);
+        }
+
+        if (empty($userId)) {
+            return false;
+        }
+
+        return (bool) (static::$itemData[$this->id]['data-active'] ?? false);
     }
 
     public static function getJsFiles()

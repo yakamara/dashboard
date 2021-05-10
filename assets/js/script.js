@@ -11,8 +11,7 @@
     let grid
         , items = []
         , $items = []
-        , storeTimeoutHandler = null
-        , widgetSelectTimeoutHandler = null
+        , widgetCompactTimeoutHandler = null
         , dashboard = {
         store: function()
         {
@@ -103,11 +102,17 @@
 
         grid.on('change', function (event, items)
         {
-            if (storeTimeoutHandler) {
-                clearTimeout(storeTimeoutHandler);
+            if (widgetCompactTimeoutHandler) {
+                clearTimeout(widgetCompactTimeoutHandler);
             }
 
-            storeTimeoutHandler = setTimeout(dashboard.store, 500);
+            widgetCompactTimeoutHandler = setTimeout(function()
+            {
+                grid.commit();
+                dashboard.resize();
+                dashboard.compact();
+                dashboard.store();
+            }, 500);
         });
 
         $('#rex-dashboard-compact').on('click', function(e) {
@@ -137,24 +142,24 @@
                 if (selectItems.indexOf($items[i].data('id')) >= 0) {
                     if (!$items[i].data('active')) {
                         grid.addWidget(items[i]);
-                        $items[i].data('active', '1');
+                        $items[i].data('active', 1);
                         $items[i].appendTo($('.grid-stack'));
                     }
                 }
                 else {
                     if ($items[i].data('active')) {
                         grid.removeWidget(items[i], false);
-                        $items[i].data('active', '0');
+                        $items[i].data('active', 0);
                         $items[i].appendTo($('.grid-stack-inactive'));
                     }
                 }
             }
 
-            if (widgetSelectTimeoutHandler) {
-                clearTimeout(widgetSelectTimeoutHandler);
+            if (widgetCompactTimeoutHandler) {
+                clearTimeout(widgetCompactTimeoutHandler);
             }
 
-            widgetSelectTimeoutHandler = setTimeout(function()
+            widgetCompactTimeoutHandler = setTimeout(function()
             {
                 grid.commit();
                 dashboard.resize();

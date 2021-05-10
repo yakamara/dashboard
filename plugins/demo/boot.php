@@ -83,4 +83,16 @@ if (rex::isBackend()) {
                 ORDER BY COUNT(*) DESC
             ')
     );
+
+    rex_dashboard::addItem(
+        rex_dashboard_item_table::factory('dashboard-demo-table-sql', 'Tabelle (SQL)')
+            ->setTableAttribute('data-locale', 'de-DE')
+            ->setTableDataSql('
+                SELECT  id ID
+                        , label Label
+                        , dbtype `DB-Type`
+                FROM rex_metainfo_type
+                ORDER BY id ASC
+            ')
+    );
 }

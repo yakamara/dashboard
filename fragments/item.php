@@ -15,6 +15,7 @@ $content = $item->getContent();
                         <?php if ($item->isCached()): ?>
                             <div class="grid-stack-item-refresh" title="<?=rex_i18n::msg('dashboard_action_refresh_title') . ' ' . $item->getCacheDate()->format(rex_i18n::msg('dashboard_action_refresh_title_dateformat')) ?>"><i class="glyphicon glyphicon-refresh"></i></div>
                         <?php endif; ?>
+                        <div class="grid-stack-item-hide" title="<?=rex_i18n::msg('dashboard_action_hide_title') ?>"><i class="glyphicon glyphicon-remove-circle"></i></div>
                         <?php if (rex::getUser()->hasPerm('dashboard[move-items]')): ?>
                             <div class="grid-stack-item-handle"><i class="glyphicon glyphicon-move"></i></div>
                         <?php endif; ?>

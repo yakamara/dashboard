@@ -79,6 +79,12 @@ abstract class rex_dashboard_item
         return $this->id;
     }
 
+    public function setColumns(int $colCount)
+    {
+        $this->attributes['gs-w'] = max(0, min(3, $colCount));
+        return $this;
+    }
+
     public function getContent()
     {
         if ($this->useCache) {

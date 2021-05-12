@@ -4,6 +4,7 @@ dashboard_action_autosize = Größe anpassen
 dashboard_select_widget_title = Widgets auswählen
 dashboard_action_refresh_title = Datenstand:
 dashboard_action_refresh_title_dateformat = d.m.Y H:i
+dashboard_action_hide_title = ausblenden
 
 dashboard_api_store_failed_backend = Das Speichern des Dashboards ist nur im Backend möglich.
 dashboard_api_store_failed_user = Zum Speichern des Dashboards muss man angemeldet sein.

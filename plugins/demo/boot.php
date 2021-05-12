@@ -15,11 +15,19 @@
 $plugin = rex_plugin::get('dashboard', 'demo');
 
 if (rex::isBackend()) {
-    foreach (['Demo 1', 'Demo 2'] as $name) {
-        rex_dashboard::addItem(
-            rex_dashboard_item_demo::factory('dashboard-' . $name, $name)
-        );
-    }
+    rex_dashboard::addItem(
+        rex_dashboard_item_demo::factory('dashboard-demo-1', 'Demo 1')
+    );
+
+    rex_dashboard::addItem(
+        rex_dashboard_item_demo::factory('dashboard-demo-2', 'Demo 2')
+            ->setColumns(2)
+    );
+
+    rex_dashboard::addItem(
+        rex_dashboard_item_demo::factory('dashboard-demo-3', 'Demo 3')
+            ->setColumns(3)
+    );
 
     rex_dashboard::addItem(
         rex_dashboard_item_chart_bar_horizontal::factory('dashboard-demo-chart-bar-horizontal', 'Chartdemo Balken horizontal')

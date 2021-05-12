@@ -52,6 +52,7 @@
 
                 let cellHeight = Math.ceil(($items[i].find('.panel-body').prop('scrollHeight')
                     + $items[i].find('.panel-heading').outerHeight(true)
+                    + $items[i].find('.panel-footer').outerHeight(true)
                     + grid.opts.marginTop
                     + grid.opts.marginBottom) / grid.getCellHeight());
 
@@ -101,6 +102,7 @@
             handle: '.grid-stack-item-handle',
             styleInHead: true,
             // resizable: false,
+            oneColumnModeDomSort: true,
         };
 
         grid = GridStack.init(options);
@@ -192,6 +194,12 @@
                 $parent.find('.bootstrap-table').bootstrapTable();
                 $parent.removeClass('loading');
             });
+        });
+
+        $('.grid-stack').on('click', '.grid-stack-item-hide', function()
+        {
+            $('#widget-select option[value="' + $(this).closest('.grid-stack-item').data('id') + '"]').prop('selected', false);
+            $('#widget-select').change();
         });
     });
 }(jQuery));

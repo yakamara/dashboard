@@ -73,6 +73,21 @@
         compact: function()
         {
             grid.compact();
+        },
+        getContent: function(id, $parent, callback)
+        {
+            $.getJSON('index.php', {
+                'page': 'dashboard',
+                'ids': [id],
+                'rex-api-call': 'dashboard_get',
+            }, function(data)
+            {
+                $parent.html(data);
+
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            });
         }
     };
 
@@ -166,6 +181,17 @@
                 dashboard.compact();
                 dashboard.store();
             }, 500);
+        });
+
+        $('.grid-stack').on('click', '.grid-stack-item-refresh', function()
+        {
+            let $parent = $(this).closest('.grid-stack-item');
+            $parent.addClass('loading');
+            dashboard.getContent($parent.data('id'), $parent.find('.panel-body'), function()
+            {
+                $parent.find('.bootstrap-table').bootstrapTable();
+                $parent.removeClass('loading');
+            });
         });
     });
 }(jQuery));

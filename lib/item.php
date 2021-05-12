@@ -84,7 +84,7 @@ abstract class rex_dashboard_item
         if ($this->useCache) {
             $cacheFile = rex_addon::get('dashboard')->getCachePath($this->getId() . '.data');
             if (file_exists($cacheFile)) {
-                $data = rex_file::getCache($cacheFile);
+                return rex_file::getCache($cacheFile);
             }
             else {
                 $data = $this->getData();
@@ -188,5 +188,21 @@ abstract class rex_dashboard_item
     public function useCache($useCache = true)
     {
         $this->useCache = $useCache;
+        return $this;
+    }
+
+    public function isCached()
+    {
+        return $this->useCache;
+    }
+
+    public function getCacheDate()
+    {
+        if (file_exists($cacheFile = rex_addon::get('dashboard')->getCachePath($this->getId() . '.data'))) {
+            $datetime = new DateTime();
+            return $datetime->setTimestamp(filemtime($cacheFile));
+        }
+
+        return new DateTime();
     }
 }

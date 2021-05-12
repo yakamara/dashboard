@@ -42,4 +42,8 @@ if (rex::isBackend()) {
         rex_dashboard_item_table_demo::factory('dashboard-demo-table-sql', 'Tabelle (SQL)')
             ->setTableAttribute('data-locale', 'de-DE')
     );
+
+    rex_dashboard::addItem(
+        rex_dashboard_item_chart_line_demo::factory('dashboard-demo-chart-line', 'Liniendiagramm')
+    );
 }

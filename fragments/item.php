@@ -3,6 +3,7 @@
  * @var rex_dashboard_item $item
  */
 $item = $this->getVar('item');
+$content = $item->getContent();
 ?>
 <div class="grid-stack-item"<?=rex_string::buildAttributes($item->getAttributes())?>>
     <div class="grid-stack-item-content">
@@ -10,12 +11,24 @@ $item = $this->getVar('item');
             <?php if ($item->getOption('show-header')): ?>
                 <header class="panel-heading">
                     <div class="panel-title"><?= htmlspecialchars($item->getName()) ?></div>
-                    <?php if (rex::getUser()->hasPerm('dashboard[move-items]')): ?>
-                        <div class="grid-stack-item-handle"><i class="glyphicon glyphicon-move"></i></div>
-                    <?php endif; ?>
+                    <div class="actions">
+                        <?php if ($item->isCached()): ?>
+                            <div class="grid-stack-item-refresh" title="<?=rex_i18n::msg('dashboard_action_refresh_title') . ' ' . $item->getCacheDate()->format(rex_i18n::msg('dashboard_action_refresh_title_dateformat')) ?>"><i class="glyphicon glyphicon-refresh"></i></div>
+                        <?php endif; ?>
+                        <?php if (rex::getUser()->hasPerm('dashboard[move-items]')): ?>
+                            <div class="grid-stack-item-handle"><i class="glyphicon glyphicon-move"></i></div>
+                        <?php endif; ?>
+                    </div>
                 </header>
             <?php endif; ?>
-            <div class="panel-body"><?=$item->getContent() ?></div>
+            <div class="panel-body"><?=$content ?></div>
+            <footer class="panel-footer">
+                <div class="rex-form-panel-footer">
+                    <div class="cache-date">
+                        <?=rex_i18n::msg('dashboard_action_refresh_title') . ' ' . $item->getCacheDate()->format(rex_i18n::msg('dashboard_action_refresh_title_dateformat')) ?>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
 </div>

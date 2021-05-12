@@ -50,7 +50,29 @@ class rex_dashboard
 
     public static function addItem(rex_dashboard_item $item)
     {
-        static::$items[] = $item;
+        static::$items[$item->getId()] = $item;
+    }
+
+    public static function getItem($id) : ?rex_dashboard_item
+    {
+        return static::$items[$id] ?? null;
+    }
+
+    public static function getItems($ids)
+    {
+        $items = [];
+
+        if (empty($ids)) {
+            return static::$items;
+        }
+
+        foreach ($ids as $id) {
+            if (static::itemExists($id)) {
+                $items[$id] = static::$items[$id];
+            }
+        }
+
+        return $items;
     }
 
     public static function getHeader()
@@ -62,7 +84,7 @@ class rex_dashboard
         $select->setMultiple();
         $select->setAttribute('class', 'form-control selectpicker');
         $select->setAttribute('data-selected-text-format', 'static');
-        $select->setAttribute('data-title', rex_i18n::msg('dashboard_selet_widget_title'));
+        $select->setAttribute('data-title', rex_i18n::msg('dashboard_select_widget_title'));
         $select->setAttribute('data-dropdown-align-right', 'auto');
 
         foreach (static::$items as $item) {

@@ -75,18 +75,16 @@
         {
             grid.compact();
         },
-        getContent: function(id, $parent, callback)
+        getContent: function(ids, callback)
         {
             $.getJSON('index.php', {
                 'page': 'dashboard',
-                'ids': [id],
+                'ids': ids,
                 'rex-api-call': 'dashboard_get',
             }, function(data)
             {
-                $parent.html(data);
-
                 if (typeof callback === 'function') {
-                    callback();
+                    callback(data);
                 }
             });
         }
@@ -185,21 +183,48 @@
             }, 500);
         });
 
-        $('.grid-stack').on('click', '.grid-stack-item-refresh', function()
+        $('.grid-stack')
+        .on('click', '.grid-stack-item-hide', function()
+        {
+            $('#widget-select option[value="' + $(this).closest('.grid-stack-item').data('id') + '"]').prop('selected', false);
+            $('#widget-select').change();
+        })
+        .on('click', '.grid-stack-item-refresh', function()
         {
             let $parent = $(this).closest('.grid-stack-item');
             $parent.addClass('loading');
-            dashboard.getContent($parent.data('id'), $parent.find('.panel-body'), function()
+            dashboard.getContent([$parent.data('id')], function(data)
             {
+                $parent.find('.grid-stack-item-content .panel-body').html(data[$parent.data('id')]);
                 $parent.find('.bootstrap-table').bootstrapTable();
                 $parent.removeClass('loading');
             });
         });
 
-        $('.grid-stack').on('click', '.grid-stack-item-hide', function()
+        $('#rex-dashboard').on('click', '#rex-dashboard-refresh', function()
         {
-            $('#widget-select option[value="' + $(this).closest('.grid-stack-item').data('id') + '"]').prop('selected', false);
-            $('#widget-select').change();
+            $('.grid-stack .grid-stack-item-refresh').click();
+            /*let ids = []
+                , $items = $('.grid-stack-item')
+            ;
+
+            $items.addClass('loading');
+
+            $items.each(function()
+            {
+                ids.push($(this).data('id'));
+            });
+
+            dashboard.getContent(ids, function(data)
+            {
+                $items.each(function()
+                {
+                    $(this).find('.grid-stack-item-content .panel-body').html(data[$(this).data('id')]);
+                });
+
+                $items.find('.bootstrap-table').bootstrapTable();
+                $items.removeClass('loading');
+            });*/
         });
     });
 }(jQuery));

@@ -3,7 +3,7 @@
 /**
  * @package yakamara\dashboard
  */
-class rex_dashboard_item_chart_pie extends rex_dashboard_item_chart
+abstract class rex_dashboard_item_chart_pie extends rex_dashboard_item_chart
 {
     use rex_dashboard_chart_colors;
 

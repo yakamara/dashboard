@@ -3,7 +3,7 @@
 /**
  * @package yakamara\dashboard
  */
-class rex_dashboard_item_table extends rex_dashboard_item
+abstract class rex_dashboard_item_table extends rex_dashboard_item
 {
     protected $tableAttributes = [
         'class' => 'bootstrap-table',
@@ -14,6 +14,9 @@ class rex_dashboard_item_table extends rex_dashboard_item
 
     protected $header = [];
     protected $data = [];
+
+    abstract protected function getTableData();
+    abstract protected function getTableHeader();
 
     protected function __construct($id, $name)
     {
@@ -28,44 +31,15 @@ class rex_dashboard_item_table extends rex_dashboard_item
         return $this;
     }
 
-    public function setTableData(array $data, $firstColumnisHeader = true)
-    {
-        if ($firstColumnisHeader) {
-            $this->setTableHeader($data[array_key_first($data)]);
-            unset($data[array_key_first($data)]);
-        }
-
-        $this->data = $data;
-        return $this;
-    }
-
-    public function setTableHeader(array $data)
-    {
-        $this->header = $data;
-        return $this;
-    }
-
-    public function setTableDataSql($query)
-    {
-        $data = rex_sql::factory()->setQuery($query)->getArray();
-
-        if (!empty($data)) {
-            $this->data = $data;
-            $this->setTableHeader(array_keys($data[0]));
-        }
-
-        return $this;
-    }
-
-    public function getContent()
+    protected function getData()
     {
         $header = '';
-        foreach ($this->header as $item) {
+        foreach ($this->getTableHeader() as $item) {
             $header .= '<th>' . htmlspecialchars($item) . '</th>';
         }
 
         $body = '';
-        foreach ($this->data as $row) {
+        foreach ($this->getTableData() as $row) {
             $body .= '<tr>';
             foreach ($row as $item) {
                 $body .= '<td>'.htmlspecialchars($item).'</td>';

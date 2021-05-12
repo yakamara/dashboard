@@ -31,6 +31,9 @@ abstract class rex_dashboard_item
         'gs-h' => 3,
         'gs-no-resize' => 1,
     ];
+    protected $useCache = true;
+
+    abstract protected function getData();
 
     protected function __construct($id, $name)
     {
@@ -76,15 +79,21 @@ abstract class rex_dashboard_item
         return $this->id;
     }
 
-    public function setContent($content)
-    {
-        $this->content = $content;
-        return $this;
-    }
-
     public function getContent()
     {
-        return $this->content;
+        if ($this->useCache) {
+            $cacheFile = rex_addon::get('dashboard')->getCachePath($this->getId() . '.data');
+            if (file_exists($cacheFile)) {
+                $data = rex_file::getCache($cacheFile);
+            }
+            else {
+                $data = $this->getData();
+                rex_file::putCache($cacheFile, $data);
+                return $data;
+            }
+        }
+
+        return $this->getData();;
     }
 
     public function setOption($name, $value)
@@ -174,5 +183,10 @@ abstract class rex_dashboard_item
     public static function getCssFiles()
     {
         return static::$cssFiles;
+    }
+
+    public function useCache($useCache = true)
+    {
+        $this->useCache = $useCache;
     }
 }

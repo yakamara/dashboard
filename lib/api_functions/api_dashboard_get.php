@@ -14,8 +14,7 @@ class rex_api_dashboard_get extends rex_api_function
         $result = [];
         foreach (rex_dashboard::getItems($ids) as $item) {
             $result[$item->getId()] = $item
-                ->useCache(false)
-                ->getContent()
+                ->getContent(true)
             ;
         }
 

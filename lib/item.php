@@ -85,11 +85,11 @@ abstract class rex_dashboard_item
         return $this;
     }
 
-    public function getContent()
+    public function getContent($refresh = false)
     {
         if ($this->useCache) {
             $cacheFile = rex_addon::get('dashboard')->getCachePath($this->getId() . '.data');
-            if (file_exists($cacheFile)) {
+            if (file_exists($cacheFile) AND !$refresh) {
                 return rex_file::getCache($cacheFile);
             }
             else {

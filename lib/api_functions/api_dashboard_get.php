@@ -13,9 +13,10 @@ class rex_api_dashboard_get extends rex_api_function
         $ids = rex_request('ids', 'array', []);
         $result = [];
         foreach (rex_dashboard::getItems($ids) as $item) {
-            $result[$item->getId()] = $item
-                ->getContent(true)
-            ;
+            $result[$item->getId()] = [
+                'content' => $item->getContent(true),
+                'date' => $item->getCacheDate()->format(rex_i18n::msg('dashboard_action_refresh_title_dateformat')),
+            ];
         }
 
         echo json_encode($result);

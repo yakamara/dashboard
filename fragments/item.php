@@ -26,7 +26,7 @@ $content = $item->getContent();
             <footer class="panel-footer">
                 <div class="rex-form-panel-footer">
                     <div class="cache-date">
-                        <?=rex_i18n::msg('dashboard_action_refresh_title') . ' ' . $item->getCacheDate()->format(rex_i18n::msg('dashboard_action_refresh_title_dateformat')) ?>
+                        <?=rex_i18n::msg('dashboard_action_refresh_title') . ' <span class="date">' . $item->getCacheDate()->format(rex_i18n::msg('dashboard_action_refresh_title_dateformat')) . '</span>' ?>
                     </div>
                 </div>
             </footer>

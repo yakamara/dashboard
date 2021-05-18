@@ -195,7 +195,8 @@
             $parent.addClass('loading');
             dashboard.getContent([$parent.data('id')], function(data)
             {
-                $parent.find('.grid-stack-item-content .panel-body').html(data[$parent.data('id')]);
+                $parent.find('.grid-stack-item-content .panel-body').html(data[$parent.data('id')].content);
+                $parent.find('.grid-stack-item-content .cache-date .date').html(data[$parent.data('id')].date);
                 $parent.find('.bootstrap-table').bootstrapTable();
                 $parent.removeClass('loading');
             });

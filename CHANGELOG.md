@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 1.0 – xx.04.2021
+Version 1.0 – 18.05.2021
 --------------------------
 
 - Initiales Setup
@@ -9,3 +9,4 @@ Version 1.0 – xx.04.2021
 - Listenklasse
 - Auswahl von Widgets
 - Grid und Grundgerüst
+- Refresh der (aller) Widgetdaten

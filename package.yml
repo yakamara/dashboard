@@ -1,6 +1,6 @@
 package: dashboard
-version: '0.1.0alpha'
-author: 'Robert Rupf'
+version: '1.0'
+author: 'Robert Rupf, Yakamara Media GmbH & Co. KG'
 supportpage: https://github.com/yakamara/dashboard
 
 page:

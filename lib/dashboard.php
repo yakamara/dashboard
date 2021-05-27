@@ -5,7 +5,7 @@
  */
 class rex_dashboard
 {
-    private static ?self $instance = null;
+    private static $instance = null; // ab php 7.4 ?self
 
     /** @var rex_dashboard_item[] $items */
     static $items = [];

@@ -10,12 +10,12 @@ class rex_dashboard_item_chart_bar_horizontal extends rex_dashboard_item_chart_b
     public function getChartData()
     {
         return [
-            'Rot' => 12,
-            'Blau' => 19,
-            'Gelb' => 3,
-            'Grün' => 5,
-            'Lila' => 2,
-            'Orange' => 3,
+            'Rot' => rand(1,122),
+            'Blau' => rand(1,122),
+            'Gelb' => rand(1,122),
+            'Grün' => rand(1,122),
+            'Lila' => rand(1,122),
+            'Orange' => rand(1,122),
         ];
     }
 }

@@ -1,5 +1,7 @@
-<div id="rex-dashboard"><?php
+<?php
+
 $addon = rex_addon::get('dashboard');
-echo rex_view::title($addon->i18n('title'), rex_dashboard::getHeader());
-echo rex_dashboard::get();
-?></div>
+echo rex_view::title(rex_dashboard::getHeader() . $addon->i18n('title'));
+echo '<div id="rex-dashboard">'.rex_dashboard::get().'</div>';
+
+?>

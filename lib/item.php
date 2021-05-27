@@ -39,24 +39,24 @@ abstract class rex_dashboard_item
     {
         $this->id = rex_string::normalize($id);
 
-        if (in_array($this->id, static::$ids)) {
+        if (in_array($this->id, self::$ids)) {
             throw new Exception('ID "' . $id . '" (normalized: "' . $this->id . '") is already in use.');
         }
 
-        static::$ids[] = $this->id;
+        self::$ids[] = $this->id;
 
         $this->name = $name;
 
         /** get stored positions and dimensions of item @see rex_api_dashboard_store */
         if ($user = rex::getUser()) {
-            if (is_null(static::$itemData)) {
-                static::$itemData = rex_config::get('dashboard', 'items_'.$user->getId(), []);
+            if (is_null(self::$itemData)) {
+                self::$itemData = rex_config::get('dashboard', 'items_'.$user->getId(), []);
             }
 
-            if (array_key_exists($this->id, static::$itemData)) {
+            if (array_key_exists($this->id, self::$itemData)) {
                 foreach (static::ATTRIBUTES as $attribute) {
-                    if (array_key_exists($attribute, static::$itemData[$this->id])) {
-                        $this->setAttribute($attribute, static::$itemData[$this->id][$attribute]);
+                    if (array_key_exists($attribute, self::$itemData[$this->id])) {
+                        $this->setAttribute($attribute, self::$itemData[$this->id][$attribute]);
                     }
                 }
             }
@@ -99,7 +99,7 @@ abstract class rex_dashboard_item
             }
         }
 
-        return $this->getData();;
+        return $this->getData();
     }
 
     public function setOption($name, $value)
@@ -137,8 +137,8 @@ abstract class rex_dashboard_item
                 $name = basename($filename);
             }
 
-            if (!array_key_exists($name, static::$jsFiles)) {
-                static::$jsFiles[$name] = $filename;
+            if (!array_key_exists($name, self::$jsFiles)) {
+                self::$jsFiles[$name] = $filename;
             }
         }
 
@@ -163,12 +163,12 @@ abstract class rex_dashboard_item
             return false;
         }
 
-        return (bool) (static::$itemData[$this->id]['data-active'] ?? false);
+        return (bool) (self::$itemData[$this->id]['data-active'] ?? false);
     }
 
     public static function getJsFiles()
     {
-        return static::$jsFiles;
+        return self::$jsFiles;
     }
 
     public function addCss($filename, $name = null)
@@ -178,8 +178,8 @@ abstract class rex_dashboard_item
                 $name = basename($filename);
             }
 
-            if (!array_key_exists($name, static::$cssFiles)) {
-                static::$cssFiles[$name] = $filename;
+            if (!array_key_exists($name, self::$cssFiles)) {
+                self::$cssFiles[$name] = $filename;
             }
         }
 
@@ -188,7 +188,7 @@ abstract class rex_dashboard_item
 
     public static function getCssFiles()
     {
-        return static::$cssFiles;
+        return self::$cssFiles;
     }
 
     public function useCache($useCache = true)

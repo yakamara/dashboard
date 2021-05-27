@@ -1,14 +1,13 @@
 <?php
+
 class rex_dashboard_item_table_demo extends rex_dashboard_item_table
 {
     protected $header = [];
     protected $data = [];
 
-    protected function __construct($id, $name)
+    protected function getTableData()
     {
-        parent::__construct($id, $name);
-
-        $data = rex_sql::factory()->setQuery('
+        $tableData = rex_sql::factory()->setQuery('
             SELECT  id ID
                     , label Label
                     , dbtype `DB-Type`
@@ -16,19 +15,14 @@ class rex_dashboard_item_table_demo extends rex_dashboard_item_table
             ORDER BY id ASC
         ')->getArray();
 
-        if (!empty($data)) {
-            $this->data = $data;
-            $this->header = array_keys($data[0]);
+        if (!empty($tableData)) {
+            $this->data = $tableData;
+            $this->header = array_keys($tableData[0]);
         }
-    }
 
-    protected function getTableHeader()
-    {
-        return $this->header;
-    }
-
-    protected function getTableData()
-    {
-        return $this->data;
+        return [
+            'data' => $this->data,
+            'header' => $this->header,
+        ];
     }
 }

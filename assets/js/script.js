@@ -92,6 +92,10 @@
 
     $(document).on('rex:ready', function ()
     {
+        if (!$('.grid-stack').length) {
+            return;
+        }
+
         let options = {
             column: 3,
             cellHeight: 50,
@@ -202,7 +206,7 @@
             });
         });
 
-        $('#rex-dashboard').on('click', '#rex-dashboard-refresh', function()
+        $('#rex-dashboard-settings').on('click', '#rex-dashboard-refresh', function()
         {
             $('.grid-stack .grid-stack-item-refresh').click();
             /*let ids = []

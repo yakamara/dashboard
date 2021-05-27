@@ -2,12 +2,13 @@ Changelog
 =========
 
 
-Version 1.0 – 11.05.2021
+Version 1.1 – 27.05.2021
 --------------------------
 
 - Bugfix: JS Aufrufe waren fehlerhaft
 - Bugfix: Cachingaufrufe wurden angepasst
 - Etwas Logikänderunge bei den Widgetklassenaufrufen
+- Quicknavigation nun parallel nutzbar
 
 Version 1.0 – 18.05.2021
 --------------------------

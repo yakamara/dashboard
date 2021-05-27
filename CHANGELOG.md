@@ -1,6 +1,14 @@
 Changelog
 =========
 
+
+Version 1.0 – 11.05.2021
+--------------------------
+
+- Bugfix: JS Aufrufe waren fehlerhaft
+- Bugfix: Cachingaufrufe wurden angepasst
+- Etwas Logikänderunge bei den Widgetklassenaufrufen
+
 Version 1.0 – 18.05.2021
 --------------------------
 
